@@ -1,22 +1,26 @@
-import streamlit as st
 import pandas as pd
-from sklearn.linear_model import LinearRegression
+import numpy as np
+import streamlit as st
+import matplotlib.pyplot as plt
 
-st.title("🏠 House Price Prediction")
+# ui for mlflow user can give input and see the output
+# create a calculator which do addition, subtraction,
+#  multiplication and division
+st.title("Simple Calculator App")
+st.write("Welcome to the calculator app")
+#input fields for the two numbers
+num1 = st.number_input("Enter the first number")
+num2 = st.number_input("Enter the second number")
+#prepare the the caclulation
+sum_result = num1 + num2
+sub_result = num1 - num2
+mul_result = num1 * num2
+div_result = num1 / num2 if num2 != 0 else "Division by zero is not allowed"
 
-df = pd.read_csv("data.csv")
+#display the results
+st.write("The sum of the two numbers is: ", sum_result)
+st.write("The difference of the two numbers is: ", sub_result)  
+st.write("The product of the two numbers is: ", mul_result)
+st.write("The quotient of the two numbers is: ", div_result)
 
-X = df[["area", "bedrooms"]]
-y = df["price"]
 
-model = LinearRegression()
-model.fit(X, y)
-
-area = st.number_input("Enter Area", value=1000)
-bedrooms = st.number_input("Enter Bedrooms", value=2)
-
-if st.button("Predict"):
-    input_data = pd.DataFrame([[area, bedrooms]], columns=["area", "bedrooms"])
-    prediction = model.predict(input_data)
-    st.success(f"Predicted Price: {prediction[0]:.2f} lakh")
-    
